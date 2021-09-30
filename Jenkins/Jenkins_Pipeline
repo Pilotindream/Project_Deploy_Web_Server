@@ -1,0 +1,33 @@
+pipeline {
+    agent {
+        label 'node1'
+    }
+    
+    stages {
+        stage('SCM') {
+            steps {
+                git branch: 'main', credentialsId: 'github-ssh-key', url: 'git@github.com:Pilotindream/Jenkins.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                echo "--------------Build started-------------------"
+                sh "ls -la"
+                echo "Build by Jenkins Build: $BUILD_ID"
+                echo "--------------Build finished-------------------"
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo "--------------Deploy started-------------------"
+                sh "ls -al"
+                echo "--------------Deploy finished-------------------"
+            }
+        }
+    }
+    post {
+        always {
+            sshPublisher(publishers: [sshPublisherDesc(configName: 'MyWebServer-Test', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'echo $BUILD_ID', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '*/**')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+        }
+    }
+}
