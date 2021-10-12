@@ -2,11 +2,31 @@ pipeline {
     agent {
         label 'node1'
     }
-    
     stages {
         stage('SCM') {
             steps {
                 git branch: 'main', credentialsId: 'github-ssh-key', url: 'git@github.com:Pilotindream/Jenkins.git'
+            }
+        }
+        stage('Launch AWS Instance') {
+            steps {
+                ansiblePlaybook credentialsId: 'my-jenkins-machine', disableHostKeyChecking: true, extras: '--vault-id .anspass --extra-vars "ansible_python_interpreter=/usr/bin/python3"', installation: 'MyAnsible', inventory: 'hosts.txt', playbook: 'aws.yml'
+                sleep 60
+            }
+        }
+        stage('Download Docker') {
+            steps {
+                ansiblePlaybook credentialsId: 'my-jenkins-machine', disableHostKeyChecking: true, installation: 'MyAnsible', inventory: 'hosts.txt', playbook: 'docker.yml'
+            }
+        }
+        stage('Create folder') {
+            steps {
+               ansiblePlaybook credentialsId: 'my-jenkins-machine', disableHostKeyChecking: true, installation: 'MyAnsible', inventory: 'hosts.txt', playbook: 'folder.yml'
+            }
+        }
+        stage('Run apache2 container') {
+            steps {
+               ansiblePlaybook credentialsId: 'my-jenkins-machine', disableHostKeyChecking: true, installation: 'MyAnsible', inventory: '/var/jenkins_home/workspace/Project_Epam/hosts.txt', playbook: '/var/jenkins_home/workspace/Project_Epam/web.yml'
             }
         }
         stage('Build') {
