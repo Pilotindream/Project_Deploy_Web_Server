@@ -1,0 +1,9 @@
+
+---
+
+- name: Create a data container
+  hosts: web2
+  become: yes
+  tasks:
+  - name: Create docker container
+    shell: docker run -d -p 8080:80 -v /home/ubuntu/apache2:/usr/local/apache2/htdocs/ httpd:2.4
