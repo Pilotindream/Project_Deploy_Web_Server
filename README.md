@@ -5,7 +5,7 @@ First of all, [here](https://github.com/Pilotindream/Jenkins.git) you can see we
 *Below, I am going to describe you, in a few words, what has been done  on each part.*
 
 
-1. Jenkins
+1. Jenkins  
 After starting Jenkins in container, I created a pipeline that checks whether there is changes in GitHub repo and publish over SSH files to the web server. Also, there is four Ansible playbooks that starts in my pipeline: a) Launch AWS EC-2 target server. b) Install Docker to the target server. c) create all necessary folders and setting permissions to them. d) Running an Apache Web Server in a container. 
 *To see Pipeline and screnshoots go to the folder "Jenkins"*
 *To see Ansible playbooks go to the folder "Ansible"*
