@@ -1,0 +1,14 @@
+---
+
+- name: Create folder
+  hosts: web2
+  become: yes
+  tasks:
+  - name: Folder
+    file:
+         path: /home/ubuntu/apache2
+         state: directory
+         mode: '0777'
+         recurse: yes
+         owner: ubuntu
+         group: ubuntu
