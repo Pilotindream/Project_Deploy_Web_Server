@@ -21,7 +21,7 @@ All of instances in this project are running in AWS. Security groups were create
 *To see additional screenshots go to the foler "AWS"*
 
 ****
-This is link to my website 18.193.149.159:8080 to check for changes during presentation
+This is link to my website 3.69.91.150:8080 to check for changes during presentation
 
 ****
 Thank you!
